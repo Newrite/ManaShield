@@ -1,0 +1,24 @@
+{
+  "name": "ManaShield",
+  "version": "1.0.0",
+  "description": "Mana Shield simple implementation",
+  "author": "newrite",
+  "scripts": {
+    "postinstall": "dotnet restore ./src && dotnet tool restore",
+    "_deleteBindingFile": "node ./dev_scripts/delete-platform-fable-bind-file.js",
+    "build": "dotnet fable src -e .js --noCache -s --outDir ./jsc && yarn _deleteBindingFile && yarn webpack",
+    "fable": "dotnet fable src -e .js --noCache -s --outDir ./jsc && yarn _deleteBindingFile",
+    "clean": "dotnet fable clean src -e .js --yes -s --outDir ./jsc && yarn _deleteBindingFile",
+    "dev": "dotnet fable watch src -e .js --noCache -s --outDir ./jsc --runWatch yarn _webwatch",
+    "_webwatch": "yarn _deleteBindingFile && yarn webpack && node ./dev_scripts/on-success.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "ts-loader": "^9.2.6"
+  },
+  "devDependencies": {
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
+  }
+}

@@ -1,0 +1,2 @@
+
+//# sourceMappingURL=PatternNoWarn.js.map
