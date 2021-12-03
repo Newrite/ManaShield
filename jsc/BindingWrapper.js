@@ -20,4 +20,3 @@ export function ActorValue$reflection() {
     return union_type("BindingWrapper.ActorValue", [], ActorValue, () => [[], []]);
 }
 
-//# sourceMappingURL=BindingWrapper.js.map
