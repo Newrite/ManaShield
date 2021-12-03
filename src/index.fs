@@ -34,6 +34,7 @@ let mutable damageReduceMult  = 0.0
 let mutable multMagickaDamage = 1.0
 
 let inline DebugTrace (message: string) =
+  if false then
     sp.printConsole(message)
 
 let inline addToManaShieldTargets      (ctx: MagicEffectApplyEvent) (shieldEffect: MagicEffect) =
@@ -82,17 +83,22 @@ sp.once_update <| fun _ ->
   | Some p ->
     DebugTrace "Find some perk"
     let entriesCounter = int(p.getNumEntries()) - 1
+    
     if entriesCounter > 0 then
+      
       let value =
         let v = p.GetNthEntryValue 0. 0.
         DebugTrace $"vALUE {v}"
         if v <= 0.1 then
           0.1
         else v
+        
       for id in 0..entriesCounter do
         setPerkValue p id value
+        
       damageReduceMult  <- value
       multMagickaDamage <- 1.0 - damageReduceMult
+      
       DebugTrace $"Set new value to damage reduce: reduceMult - {damageReduceMult} | magickaMult - {multMagickaDamage}"
     else
       DebugTrace $"EmptyEntryes of perk - {p.getFormID()}"

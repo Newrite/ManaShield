@@ -8,9 +8,9 @@
     "_deleteBindingFile": "node ./dev_scripts/delete-platform-fable-bind-file.js",
     "build": "dotnet fable src -e .js --noCache --outDir ./jsc && yarn _deleteBindingFile && yarn webpack",
     "fable": "dotnet fable src -e .js --noCache --outDir ./jsc && yarn _deleteBindingFile",
-    "fabledebug": "dotnet fable src -e .js --define !DEBUG --noCache --outDir ./jsc && yarn _deleteBindingFile",
+    "fabledebug": "dotnet fable src -e .js --noCache --outDir ./jsc && yarn _deleteBindingFile",
     "clean": "dotnet fable clean src -e .js --yes --outDir ./jsc && yarn _deleteBindingFile",
-    "dev": "dotnet fable watch src -e .js --define !DEBUG --noCache --outDir ./jsc --runWatch yarn _webwatch",
+    "dev": "dotnet fable watch src -e .js --noCache --outDir ./jsc --runWatch yarn _webwatch",
     "_webwatch": "yarn _deleteBindingFile && yarn webpack && node ./dev_scripts/on-success.js"
   },
   "license": "MIT",

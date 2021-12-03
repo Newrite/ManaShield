@@ -27,16 +27,19 @@ export class ShieldedActor extends Record {
         this.LastHealthPercent = LastHealthPercent;
     }
     Equals(other) {
+        let sa;
         const self = this;
-        return (other instanceof ShieldedActor) && (self.FormID === other.FormID);
+        return (other instanceof ShieldedActor) && ((sa = other, self.FormID === sa.FormID));
     }
     GetHashCode() {
         const self = this;
-        return numberHash(self.FormID) | 0;
+        const cp = self.FormID;
+        return numberHash(cp) | 0;
     }
     CompareTo(other) {
+        let sa;
         const self = this;
-        return ((other instanceof ShieldedActor) ? ((self.FormID > other.FormID) ? 1 : ((self.FormID === other.FormID) ? 0 : -1)) : -1) | 0;
+        return ((other instanceof ShieldedActor) ? ((sa = other, (self.FormID > sa.FormID) ? 1 : ((self.FormID === sa.FormID) ? 0 : -1))) : -1) | 0;
     }
 }
 
@@ -61,8 +64,8 @@ export function ShieldedActor__UpdateHealthInternal_Z2EA54798(self, selfActor) {
 export function ShieldedActor_CreateFromActor_Z2EA54798(actor) {
     const formID = actor.getFormID();
     return new ShieldedActor(() => {
-        let a;
-        return value(skyrimPlatform.Actor.from((a = skyrimPlatform.Game.getFormEx(formID), (a == null) ? (void 0) : a)));
+        let a, a_1;
+        return value(skyrimPlatform.Actor.from((a = skyrimPlatform.Game.getFormEx(formID), (a == null) ? (void 0) : ((a_1 = a, a_1)))));
     }, actor.getFormID(), actor.getActorValue("health"), actor.getActorValuePercentage("health)"));
 }
 
