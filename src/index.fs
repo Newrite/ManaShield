@@ -14,9 +14,6 @@ open FSharp.UMX
 
 let targets = HashSet<ShieldedActor>()
 
-let mutable lastHealth        : ValueOfActorValue   = %0.
-let mutable lastHealthPercent : PercentOfActorValue = %1.
-
 let pluginName        = "ManaShield.esp"
 let effectFormID      = 2050.
 let perkFormID        = 2048.
@@ -37,7 +34,7 @@ let inline DebugTrace (message: string) =
   if false then
     sp.printConsole(message)
 
-let inline addToManaShieldTargets      (ctx: MagicEffectApplyEvent) (shieldEffect: MagicEffect) =
+let inline addToManaShieldTargets (ctx: MagicEffectApplyEvent) (shieldEffect: MagicEffect) =
   
   DebugTrace $"Add to targets... sh effect - {shieldEffect.getFormID()} | effect - {ctx.effect.getFormID()}"
   
