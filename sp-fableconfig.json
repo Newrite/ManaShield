@@ -1,5 +1,5 @@
 {
-  "outfile": "plugin.js",
+  "outfile": "mana-shield-plugin.js",
   "outdir": "./dist/",
   "entry": "./jsc/index.js",
   "seRoot": "G:/SteamLibrary/steamapps/common/Skyrim Special Edition"

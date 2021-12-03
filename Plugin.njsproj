@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dev_scripts\" />
+    <Folder Include="dist" />
     <Folder Include="dist\" />
     <Folder Include="jsc\" />
     <Folder Include="jsc\fable_modules\" />

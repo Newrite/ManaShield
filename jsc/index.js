@@ -24,25 +24,25 @@ skyrimPlatform.on('update',(() => {
         lastHealthPercent(percentHealth, true);
     };
     let pattern_matching_result;
-    let activePatternResult1939;
+    let activePatternResult396;
     const ctxHealth = healthCtx;
     const percentEquality = !(Math.abs(ctxHealth.CurrentHealthPercent - ctxHealth.LastHealthPercent) > 0.01);
     if (percentEquality) {
-        activePatternResult1939 = (new FSharpChoice$3(2, void 0));
+        activePatternResult396 = (new FSharpChoice$3(2, void 0));
     }
     else if (ctxHealth.CurrentHealthPercent > ctxHealth.LastHealthPercent) {
-        activePatternResult1939 = (new FSharpChoice$3(1, void 0));
+        activePatternResult396 = (new FSharpChoice$3(1, void 0));
     }
     else if (ctxHealth.CurrentHealthPercent < ctxHealth.LastHealthPercent) {
-        activePatternResult1939 = (new FSharpChoice$3(0, void 0));
+        activePatternResult396 = (new FSharpChoice$3(0, void 0));
     }
     else {
         throw (new Error("Match failure"));
     }
-    if (activePatternResult1939.tag === 2) {
+    if (activePatternResult396.tag === 2) {
         pattern_matching_result = 0;
     }
-    else if (activePatternResult1939.tag === 0) {
+    else if (activePatternResult396.tag === 0) {
         pattern_matching_result = 1;
     }
     else {
@@ -55,27 +55,27 @@ skyrimPlatform.on('update',(() => {
         }
         case 1: {
             let pattern_matching_result_1, delta_1;
-            let activePatternResult1938;
+            let activePatternResult395;
             const ctxHealth_1 = healthCtx;
             const delta = Math.abs(ctxHealth_1.CurrentHealth - ctxHealth_1.LastHealth);
             if (ctxHealth_1.CurrentHealth > ctxHealth_1.LastHealth) {
-                activePatternResult1938 = (new FSharpChoice$3(1, delta));
+                activePatternResult395 = (new FSharpChoice$3(1, delta));
             }
             else if (ctxHealth_1.CurrentHealth === ctxHealth_1.LastHealth) {
-                activePatternResult1938 = (new FSharpChoice$3(2, void 0));
+                activePatternResult395 = (new FSharpChoice$3(2, void 0));
             }
             else if (ctxHealth_1.CurrentHealth < ctxHealth_1.LastHealth) {
-                activePatternResult1938 = (new FSharpChoice$3(0, delta));
+                activePatternResult395 = (new FSharpChoice$3(0, delta));
             }
             else {
                 throw (new Error("Match failure"));
             }
-            if (activePatternResult1938.tag === 2) {
+            if (activePatternResult395.tag === 2) {
                 pattern_matching_result_1 = 0;
             }
-            else if (activePatternResult1938.tag === 0) {
+            else if (activePatternResult395.tag === 0) {
                 pattern_matching_result_1 = 1;
-                delta_1 = activePatternResult1938.fields[0];
+                delta_1 = activePatternResult395.fields[0];
             }
             else {
                 pattern_matching_result_1 = 0;
