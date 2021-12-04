@@ -1,10 +1,6 @@
 let fs = require('fs-extra');
 let path = require('path');
 
-if (fs.existsSync('./jsc/SkyrimPlatform.js.ts')) {
-	fs.removeSync('./jsc/SkyrimPlatform.js.ts')
-}
-
 function writeFileSyncRecursive(filename, content, charset) {
 	filename.split(path.sep).slice(0,-1).reduce( (last, folder)=>{
 		let folderPath = last ? (last + path.sep + folder) : folder

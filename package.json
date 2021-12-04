@@ -5,11 +5,18 @@
   "author": "newrite",
   "scripts": {
     "postinstall": "dotnet restore ./src && dotnet tool restore",
+    
     "_deleteBindingFile": "node ./dev_scripts/delete-platform-fable-bind-file.js",
+    
     "build": "dotnet fable src -e .js --noCache --outDir ./jsc && yarn _deleteBindingFile && yarn webpack",
+    
+    "_releasebuild": "dotnet fable src -e .js --optimize --noCache --outDir ./jsc && node ./dev_scripts/on-success-release.js",
+    "release": "yarn clean && yarn _releasebuild && yarn _deleteBindingFile && yarn webpack",
+    
     "fable": "dotnet fable src -e .js --noCache --outDir ./jsc && yarn _deleteBindingFile",
-    "fabledebug": "dotnet fable src -e .js --noCache --outDir ./jsc && yarn _deleteBindingFile",
+    
     "clean": "dotnet fable clean src -e .js --yes --outDir ./jsc && yarn _deleteBindingFile",
+    
     "dev": "dotnet fable watch src -e .js --noCache --outDir ./jsc --runWatch yarn _webwatch",
     "_webwatch": "yarn _deleteBindingFile && yarn webpack && node ./dev_scripts/on-success.js"
   },

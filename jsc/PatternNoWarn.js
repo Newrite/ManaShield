@@ -1,15 +1,16 @@
+import { equals, compare } from "./fable_modules/fable-library.3.6.2/Util.js";
 import { FSharpChoice$3 } from "./fable_modules/fable-library.3.6.2/Choice.js";
 import * as skyrimPlatform from "../src/skyrimPlatform.declare";
 
 export function $007CLessHealth$007CMoreHealth$007CEqualHealth$007C(ctxHealth) {
     const delta = Math.abs(ctxHealth.CurrentHealth - ctxHealth.LastHealth);
-    if (ctxHealth.CurrentHealth > ctxHealth.LastHealth) {
+    if (compare(ctxHealth.CurrentHealth, ctxHealth.LastHealth) > 0) {
         return new FSharpChoice$3(1, delta);
     }
-    else if (ctxHealth.CurrentHealth === ctxHealth.LastHealth) {
+    else if (equals(ctxHealth.CurrentHealth, ctxHealth.LastHealth)) {
         return new FSharpChoice$3(2, void 0);
     }
-    else if (ctxHealth.CurrentHealth < ctxHealth.LastHealth) {
+    else if (compare(ctxHealth.CurrentHealth, ctxHealth.LastHealth) < 0) {
         return new FSharpChoice$3(0, delta);
     }
     else {
@@ -18,18 +19,19 @@ export function $007CLessHealth$007CMoreHealth$007CEqualHealth$007C(ctxHealth) {
 }
 
 export function $007CPercentLessHealth$007CPercentMoreHealth$007CPercentEqualHealth$007C(ctxHealth) {
-    const percentEquality = !(Math.abs(ctxHealth.CurrentHealthPercent - ctxHealth.LastHealthPercent) > 0.01);
-    if (percentEquality) {
-        return new FSharpChoice$3(2, void 0);
-    }
-    else if (ctxHealth.CurrentHealthPercent > ctxHealth.LastHealthPercent) {
-        return new FSharpChoice$3(1, void 0);
-    }
-    else if (ctxHealth.CurrentHealthPercent < ctxHealth.LastHealthPercent) {
-        return new FSharpChoice$3(0, void 0);
+    if (Math.abs(ctxHealth.CurrentHealthPercent - ctxHealth.LastHealthPercent) > 0.01) {
+        if (compare(ctxHealth.CurrentHealthPercent, ctxHealth.LastHealthPercent) > 0) {
+            return new FSharpChoice$3(1, void 0);
+        }
+        else if (compare(ctxHealth.CurrentHealthPercent, ctxHealth.LastHealthPercent) < 0) {
+            return new FSharpChoice$3(0, void 0);
+        }
+        else {
+            throw (new Error("Match failure"));
+        }
     }
     else {
-        throw (new Error("Match failure"));
+        return new FSharpChoice$3(2, void 0);
     }
 }
 

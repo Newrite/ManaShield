@@ -2,8 +2,9 @@ import { HashSet } from "./fable_modules/fable-library.3.6.2/MutableSet.js";
 import { getEnumerator, createAtom, safeHash, equals } from "./fable_modules/fable-library.3.6.2/Util.js";
 import * as skyrimPlatform from "../src/skyrimPlatform.declare";
 import { $007CPercentLessHealth$007CPercentMoreHealth$007CPercentEqualHealth$007C, $007CLessHealth$007CMoreHealth$007CEqualHealth$007C, $007CIsManaShieldEffect$007C_$007C, $007CPerkFromForm$007C_$007C, $007CMagicEffectFromForm$007C_$007C } from "./PatternNoWarn.js";
+import { toText } from "./fable_modules/fable-library.3.6.2/String.js";
 import { addToSet } from "./fable_modules/fable-library.3.6.2/MapUtil.js";
-import { ShieldedActor__HealthContext_Z2EA54798, ShieldedActor__UpdateHealth, ShieldedActor__UpdateHealthInternal_Z2EA54798, ShieldedActor_CreateFromActor_Z2EA54798 } from "./Core.js";
+import { ShieldedActor__HealthContext_Z2EA54798, ShieldedActor__UpdateHealthInternal_Z2EA54798, ShieldedActor_CreateFromActor_Z2EA54798 } from "./Core.js";
 import { iterate } from "./fable_modules/fable-library.3.6.2/Seq.js";
 import { toArray } from "./fable_modules/fable-library.3.6.2/Option.js";
 import { toString } from "./fable_modules/fable-library.3.6.2/Types.js";
@@ -21,7 +22,7 @@ export const Plugin_effectFormID = 2050;
 export const Plugin_perkFormID = 2048;
 
 export function Plugin_manaShieldEffect() {
-    const matchValue = skyrimPlatform.Game.getFormFromFile(Plugin_effectFormID, Plugin_pluginName);
+    const matchValue = skyrimPlatform.Game.getFormFromFile(2050, "ManaShield.esp");
     const activePatternResult440 = $007CMagicEffectFromForm$007C_$007C(matchValue);
     if (activePatternResult440 != null) {
         const effect = activePatternResult440;
@@ -35,7 +36,7 @@ export function Plugin_manaShieldEffect() {
 }
 
 export function Plugin_manaShieldPerk() {
-    const matchValue = skyrimPlatform.Game.getFormFromFile(Plugin_perkFormID, Plugin_pluginName);
+    const matchValue = skyrimPlatform.Game.getFormFromFile(2048, "ManaShield.esp");
     const activePatternResult444 = $007CPerkFromForm$007C_$007C(matchValue);
     if (activePatternResult444 != null) {
         const perk = activePatternResult444;
@@ -53,15 +54,16 @@ export let Plugin_damageReduceMult = createAtom(0);
 export let Plugin_multMagickaDamage = createAtom(1);
 
 function OnMagicEffectApply_addToManaShieldTargets(ctx, shieldEffect) {
-    skyrimPlatform.printConsole(`Add to targets... sh effect - ${shieldEffect.getFormID()} | effect - ${ctx.effect.getFormID()}`);
-    const matchValue = [shieldEffect.getFormID() === ctx.effect.getFormID(), ctx.target];
-    const activePatternResult447 = $007CIsManaShieldEffect$007C_$007C(matchValue[0], matchValue[1]);
+    skyrimPlatform.printConsole(toText(`Add to targets... sh effect - ${shieldEffect.getFormID()} | effect - ${ctx.effect.getFormID()}`));
+    const matchValue_0 = shieldEffect.getFormID() === ctx.effect.getFormID();
+    const matchValue_1 = ctx.target;
+    const activePatternResult447 = $007CIsManaShieldEffect$007C_$007C(matchValue_0, matchValue_1);
     if (activePatternResult447 != null) {
         const actor = activePatternResult447;
-        skyrimPlatform.printConsole(`Add: Is Shield effect for actor id: ${actor.getFormID()}`);
+        skyrimPlatform.printConsole(toText(`Add: Is Shield effect for actor id: ${actor.getFormID()}`));
         actor.addPerk(Plugin_manaShieldPerk());
         const result = addToSet(ShieldedActor_CreateFromActor_Z2EA54798(actor), Plugin_targets);
-        skyrimPlatform.printConsole(`Result of add - ${result}`);
+        skyrimPlatform.printConsole(toText(`Result of add - ${result}`));
     }
 }
 
@@ -72,7 +74,7 @@ skyrimPlatform.on('magicEffectApply',((ctx) => {
     }
     else {
         const effect = matchValue;
-        skyrimPlatform.printConsole(`Debug: shield effect id - ${effect.getFormID()}`);
+        skyrimPlatform.printConsole(toText(`Debug: shield effect id - ${effect.getFormID()}`));
         OnMagicEffectApply_addToManaShieldTargets(ctx, effect);
     }
 }));
@@ -81,22 +83,22 @@ function OnceUpdate_setMultiplays(newValue) {
     Plugin_damageReduceMult(newValue, true);
     Plugin_multMagickaDamage(1 - Plugin_damageReduceMult(), true);
     skyrimPlatform.printConsole("Set new value to damage reduce:");
-    skyrimPlatform.printConsole(`__ reduceMult - ${Plugin_damageReduceMult()} | magickaMult - ${Plugin_multMagickaDamage()}`);
+    skyrimPlatform.printConsole(toText(`__ reduceMult - ${Plugin_damageReduceMult()} | magickaMult - ${Plugin_multMagickaDamage()}`));
 }
 
 function OnceUpdate_setPerkValue(perk, id, value) {
     if (perk.setNthEntryValue(id, 0, value)) {
-        skyrimPlatform.printConsole(`Success set new value to perk: ID: ${id} | Value: ${value}`);
+        skyrimPlatform.printConsole(toText(`Success set new value to perk: ID: ${id} | Value: ${value}`));
     }
     else {
-        skyrimPlatform.printConsole(`Failure set new value to perk: ID: ${id} | Value: ${value}`);
+        skyrimPlatform.printConsole(toText(`Failure set new value to perk: ID: ${id} | Value: ${value}`));
     }
 }
 
 function OnceUpdate_firstValueOfPerk(perk) {
     const v = perk.getNthEntryValue(0, 0);
-    skyrimPlatform.printConsole(`Value from perk ${v}`);
-    if (v <= 0.1) {
+    skyrimPlatform.printConsole(toText(`Value from perk ${v}`));
+    if ((v > 0.1) === false) {
         return 0.1;
     }
     else {
@@ -114,41 +116,42 @@ function OnceUpdate_handlePerk(perk) {
         OnceUpdate_setMultiplays(value);
     }
     else {
-        skyrimPlatform.printConsole(`EmptyEntryes of perk - ${perk.getFormID()}`);
+        skyrimPlatform.printConsole(toText(`EmptyEntryes of perk - ${perk.getFormID()}`));
     }
 }
 
 skyrimPlatform.once('update',(() => {
     skyrimPlatform.printConsole("Rising once update");
-    skyrimPlatform.printConsole(`__ plugin name - ${Plugin_pluginName} | perkID - ${Plugin_perkFormID} | effectID - ${Plugin_effectFormID}`);
+    skyrimPlatform.printConsole(toText(`__ plugin name - ${"ManaShield.esp"} | perkID - ${2048} | effectID - ${2050}`));
     iterate((perk) => {
         OnceUpdate_handlePerk(perk);
     }, toArray(Plugin_manaShieldPerk()));
 }));
 
 function OnUpdate_removeFromManaShieldTargets(shieldedActor, self) {
-    skyrimPlatform.printConsole(`Remove actor: actorId - ${shieldedActor.FormID}`);
+    skyrimPlatform.printConsole(toText(`Remove actor: actorId - ${shieldedActor.FormID}`));
     self.removePerk(Plugin_manaShieldPerk());
     const result = Plugin_targets.delete(shieldedActor);
-    skyrimPlatform.printConsole(`Result of remove - ${result}`);
+    skyrimPlatform.printConsole(toText(`Result of remove - ${result}`));
 }
 
 function OnUpdate_evaluteHealthMagickaDamage(sa, self, healthCtx, delta) {
     const fullDamage = delta / Plugin_damageReduceMult();
     const magickaDamage = fullDamage * Plugin_multMagickaDamage();
     const magicka = self.getActorValue(toString(new ActorValue(1)));
-    skyrimPlatform.printConsole(`DEBUG TRACE: ReduceMult ${Plugin_damageReduceMult()} | MagickaMult ${Plugin_multMagickaDamage()}`);
-    skyrimPlatform.printConsole(`DEBUG TRACE: FullDamage ${fullDamage} | Delta ${delta}`);
-    skyrimPlatform.printConsole(`Damage magicka: PlayerMagicka - ${magicka} | MagickaDamage - ${magickaDamage}`);
+    skyrimPlatform.printConsole(toText(`DEBUG TRACE: ReduceMult ${Plugin_damageReduceMult()} | MagickaMult ${Plugin_multMagickaDamage()}`));
+    skyrimPlatform.printConsole(toText(`DEBUG TRACE: FullDamage ${fullDamage} | Delta ${delta}`));
+    skyrimPlatform.printConsole(toText(`Damage magicka: PlayerMagicka - ${magicka} | MagickaDamage - ${magickaDamage}`));
     if (magickaDamage > magicka) {
         const damageHealth = magickaDamage - magicka;
-        skyrimPlatform.printConsole(`Damage magicka delta: DamageHealth - ${damageHealth}`);
+        skyrimPlatform.printConsole(toText(`Damage magicka delta: DamageHealth - ${damageHealth}`));
         self.damageActorValue(toString(new ActorValue(0)), damageHealth);
         self.damageActorValue(toString(new ActorValue(1)), magicka);
         ShieldedActor__UpdateHealthInternal_Z2EA54798(sa, self);
     }
     else {
-        ShieldedActor__UpdateHealth(sa, healthCtx.CurrentHealth, healthCtx.CurrentHealthPercent);
+        sa.LastHealth = healthCtx.CurrentHealth;
+        sa.LastHealthPercent = healthCtx.CurrentHealthPercent;
         self.damageActorValue(toString(new ActorValue(1)), magickaDamage);
     }
 }
@@ -168,7 +171,8 @@ function OnUpdate_handleHealthValue(sa, self, healthCtx) {
     }
     switch (pattern_matching_result) {
         case 0: {
-            ShieldedActor__UpdateHealth(sa, healthCtx.CurrentHealth, healthCtx.CurrentHealthPercent);
+            sa.LastHealth = healthCtx.CurrentHealth;
+            sa.LastHealthPercent = healthCtx.CurrentHealthPercent;
             break;
         }
         case 1: {
@@ -193,7 +197,8 @@ function OnUpdate_handleHealthPercent(sa, self) {
     }
     switch (pattern_matching_result) {
         case 0: {
-            ShieldedActor__UpdateHealth(sa, healthCtx.CurrentHealth, healthCtx.CurrentHealthPercent);
+            sa.LastHealth = healthCtx.CurrentHealth;
+            sa.LastHealthPercent = healthCtx.CurrentHealthPercent;
             break;
         }
         case 1: {
@@ -205,11 +210,11 @@ function OnUpdate_handleHealthPercent(sa, self) {
 
 function OnUpdate_handleTarget(sa) {
     const self = sa.Self();
-    if (!self.hasMagicEffect(Plugin_manaShieldEffect())) {
-        OnUpdate_removeFromManaShieldTargets(sa, self);
+    if (self.hasMagicEffect(Plugin_manaShieldEffect())) {
+        OnUpdate_handleHealthPercent(sa, self);
     }
     else {
-        OnUpdate_handleHealthPercent(sa, self);
+        OnUpdate_removeFromManaShieldTargets(sa, self);
     }
 }
 
