@@ -29,6 +29,9 @@ type Actor with
   member inline self.TryRemovePerk perk = self.removePerk(perk)
   member inline self.RemovePerk    perk = self.removePerk(Some(perk))
   
+  member inline self.HasMagicEffect    me = self.hasMagicEffect(Some(me))
+  member inline self.TryHasMagicEffect me = self.hasMagicEffect(me)
+  
 type DebugStatic with
 
   member inline self.Notification message = self.notification(message)
@@ -61,3 +64,4 @@ type PerkStatic with
 type ActorStatic with
 
   member inline self.From (form: Form) = sp.Actor.from(?+form)
+  

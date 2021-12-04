@@ -8,12 +8,18 @@ open Fable.Core
 [<ImportAll("./skyrimPlatform.declare")>]
 let sp: IExports = jsNative
 
+let inline DebugTrace (message: string) =
+  if true then
+    sp.printConsole(message)
+
 let inline (~+) (a: Form option) =
   match a with
   | Some a -> Some(a :> PapyrusObject)
   | None -> None
   
 let inline (~?+) (a: Form) = Some(a :> PapyrusObject)
+
+let inline (^) f x = f x
 
 
 type [<Measure>] private value_of_actorvalue

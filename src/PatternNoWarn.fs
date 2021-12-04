@@ -7,7 +7,7 @@ open BindingWrapper
 
 open Core
 open FSharp.UMX
-let inline (|LessHealth|MoreHealth|EqualHealth|) (ctxHealth: HealthContext) =
+let (|LessHealth|MoreHealth|EqualHealth|) (ctxHealth: HealthContext) =
   
   let delta = System.Math.Abs(%ctxHealth.CurrentHealth - %ctxHealth.LastHealth)
       
@@ -16,7 +16,7 @@ let inline (|LessHealth|MoreHealth|EqualHealth|) (ctxHealth: HealthContext) =
   | _ when %ctxHealth.CurrentHealth = %ctxHealth.LastHealth -> EqualHealth
   | _ when %ctxHealth.CurrentHealth < %ctxHealth.LastHealth -> LessHealth delta
     
-let inline (|PercentLessHealth|PercentMoreHealth|PercentEqualHealth|) (ctxHealth: HealthContext) =
+let (|PercentLessHealth|PercentMoreHealth|PercentEqualHealth|) (ctxHealth: HealthContext) =
 
   let percentEquality =
     if System.Math.Abs(%ctxHealth.CurrentHealthPercent - %ctxHealth.LastHealthPercent) > 0.01 then
@@ -29,14 +29,14 @@ let inline (|PercentLessHealth|PercentMoreHealth|PercentEqualHealth|) (ctxHealth
   | _ when %ctxHealth.CurrentHealthPercent > %ctxHealth.LastHealthPercent -> PercentMoreHealth
   | _ when %ctxHealth.CurrentHealthPercent < %ctxHealth.LastHealthPercent -> PercentLessHealth
   
-let inline (|IsManaShieldEffect|_|) (equal, objRef: ObjectReference) =
+let (|IsManaShieldEffect|_|) (equal, objRef: ObjectReference) =
   if equal then
     match sp.Actor.From (objRef :> Form) with
     | Some actor -> Some actor
     | _ -> None
   else None
   
-let inline (|MagicEffectFromForm|_|) (someForm: Form option) =
+let (|MagicEffectFromForm|_|) (someForm: Form option) =
   match someForm with
   | Some form ->
     match sp.MagicEffect.From(form) with
@@ -44,7 +44,7 @@ let inline (|MagicEffectFromForm|_|) (someForm: Form option) =
     | _ -> None
   | _ -> None
   
-let inline (|PerkFromForm|_|) (someForm: Form option) =
+let (|PerkFromForm|_|) (someForm: Form option) =
   match someForm with
   | Some form ->
     match sp.Perk.From(form) with
