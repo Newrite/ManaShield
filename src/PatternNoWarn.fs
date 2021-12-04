@@ -19,7 +19,7 @@ let (|LessHealth|MoreHealth|EqualHealth|) (ctxHealth: HealthContext) =
 let (|PercentLessHealth|PercentMoreHealth|PercentEqualHealth|) (ctxHealth: HealthContext) =
 
   let percentEquality =
-    if System.Math.Abs(%ctxHealth.CurrentHealthPercent - %ctxHealth.LastHealthPercent) > 0.01 then
+    if System.Math.Abs(%ctxHealth.CurrentHealthPercent - %ctxHealth.LastHealthPercent) > 0.02 then
       false
     else
       true

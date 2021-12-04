@@ -19,7 +19,7 @@ export function $007CLessHealth$007CMoreHealth$007CEqualHealth$007C(ctxHealth) {
 }
 
 export function $007CPercentLessHealth$007CPercentMoreHealth$007CPercentEqualHealth$007C(ctxHealth) {
-    if (Math.abs(ctxHealth.CurrentHealthPercent - ctxHealth.LastHealthPercent) > 0.01) {
+    if (Math.abs(ctxHealth.CurrentHealthPercent - ctxHealth.LastHealthPercent) > 0.02) {
         if (compare(ctxHealth.CurrentHealthPercent, ctxHealth.LastHealthPercent) > 0) {
             return new FSharpChoice$3(1, void 0);
         }
